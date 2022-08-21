@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, ElementRef, ViewChild, ViewContainerRef } from '@angular/core';
+import { CardComponent } from './card/card.component';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +7,26 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'angular-create-dynamic-components';
+
+  @ViewChild('container', { read: ViewContainerRef }) container!: ViewContainerRef;
+
+
+  ngOnInit(): void {
+    console.log(this.container);    
+  }
+  
+  ngAfterViewInit(): void {
+    console.log(this.container);    
+    //Called after ngAfterContentInit when the component's view has been initialized. Applies to components only.
+    //Add 'implements AfterViewInit' to the class.
+    
+  }
+
+  createCard() {
+    this.container.clear();
+    const cardComponent = this.container.createComponent(CardComponent);
+    cardComponent.instance.title = 'Titulo aqui';
+  }
+
+  
 }
